@@ -68,9 +68,11 @@ $(document).ready(function() {
               '</div>' +
             '</div>' +
             '<div class="time">' +
-              time +
+              time.toString() +
             '</div>' +
           '</div>';
+
+      $('#stream').prepend(tweetFormat);
 
   });
 
