@@ -35,7 +35,7 @@ $(document).ready(function() {
     $('#tweet-submit').css('disabled');
   }
 
-  // Creates new div with all the info for new tweet, then inserts that into top of div.
+  // Creates new div with all the info for new tweet, then inserts that into top of div. Includes the correct date and time!
 
   $('#tweet-submit').click(function() {
     var newTweet = $('.tweet-compose').val();
@@ -43,7 +43,7 @@ $(document).ready(function() {
     time = new Date();
 
     var tweetFormat = '<div class="tweet">' +
-        '<div class="content">' + '<img class="avatar" src="img/alagoon.jpg">' + '<strong class="fullname">Big Cheese</strong>' +
+        '<div class="content">' + '<img class="avatar" src="img/alagoon.jpg">' + '<strong class="fullname">Big Cheese </strong>' +
           '<span class="username">@bigCheese</span>' +
           '<p class="tweet-text">' + newTweet + '</p> <div class="tweet-actions">' + '<ul>' +
               '<li><span class="icon action-reply"></span> Reply</li>' +
@@ -74,6 +74,23 @@ $(document).ready(function() {
 
       $('#stream').prepend(tweetFormat);
 
+  });
+
+  // This will reveal all the possible actions for a tweet when you hover over a tweet
+
+  $(document).on('hover', '.tweet',
+    function() {
+      $(this).find('.tweet-actions').show();
+    });
+
+  //   ,
+  //   function() {
+  //     $(this).find('.tweet-actions').hide();
+  // }
+
+  // Here we make it so that the numbers of retweets etc. is shown when we click on a tweet. Nothing currently in place to get rid of that stuff once you have clicked on it.
+  $(document).on('click', '.tweet', function() {
+    $(this).find('.stats').show();
   });
 
 });
