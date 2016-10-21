@@ -3,6 +3,9 @@ $(document).ready(function() {
   // This attaches jQuery timeago to our timestamps
   jQuery("time.timeago").timeago();
 
+  // This enables all tooltips on the page
+  $('[data-toggle="tooltip"]').tooltip();
+
   // This will double the height of the tweet input box and change the tweet-controls display from none to block.
   // Note that this only works to doulbe the tweet-compose because I happen to know exactly what it is and I can manage to double it here. If I wanted to double an unknown value, I would have to get the text inside using .text() or .html(), parse that into a number, double that number, and then push it back into a string.
   $('.tweet-compose').on('click', function() {
@@ -53,12 +56,13 @@ $(document).ready(function() {
     // time = time.toDateString();
 
     // This uses the moment library to do tell us how long ago something happened.
+    // Currently they are working, they are just ugly. I don't really care at the moment though. 
     time = moment().startOf(time).fromNow();
 
     // Check the DOM to see how the timeago feature is working (or whether it is at all).
 
     var tweetFormat = '<div class="tweet">' +
-        '<div class="content">' + '<img class="avatar" src="img/alagoon.jpg">' + '<strong class="fullname">Big Cheese </strong>' +
+        '<div class="content">' + '<img class="avatar" src="img/alagoon.jpg" data-toggle="tooltip" title="Unbelievable!">' + '<strong class="fullname">Big Cheese </strong>' +
           '<span class="username">@bigCheese</span>' +
           '<p class="tweet-text">' + newTweet + '</p> <div class="tweet-actions">' + '<ul>' +
               '<li><span class="icon action-reply"></span> Reply</li>' +
@@ -93,15 +97,15 @@ $(document).ready(function() {
 
   // This will reveal all the possible actions for a tweet when you hover over a tweet
 
-  // $(document).on('mouseenter', '.tweet',
-  //   function() {
-  //     $(this).find('.tweet-actions').show();
-  //   });
-  //
-  // $(document).on('mouseleave', '.tweet',
-  //   function() {
-  //     $(this).find('.tweet-actions').hide();
-  // });
+  $(document).on('mouseenter', '.tweet',
+    function() {
+      $(this).find('.tweet-actions').show();
+    });
+
+  $(document).on('mouseleave', '.tweet',
+    function() {
+      $(this).find('.tweet-actions').hide();
+  });
 
   // Here we make it so that the numbers of retweets etc. is shown when we click on a tweet. To hide it again we currently have to double click.
   $(document).on('click', '.tweet', function() {
