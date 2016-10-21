@@ -17,9 +17,17 @@ $(document).ready(function() {
   // A basic decrementer pattern that will decrease the number for every keypress.
   // For some reason, I need the replace function within the other function, even though as far as I can tell they should do the same thing and I should therefore need only one of them.
   // For further explanation check out http://stackoverflow.com/questions/11324559/jquery-if-div-contains-this-text-replace-that-part-of-the-text and the documentation, which you'll have to find.
+  // The charcount < 12 statement changes the color to red if the number is less than 12.
+  // The charCount < 1 statement disables the submit button when the charCount drops below 0. We have to make the two if statements 2 larger than we want, because it will start looking when the values are 11 and 0 now, making it perfect when we hit that last button.
   var initCount = 141;
   var charCount = 140;
   $('.tweet-compose').on('keypress', function(e) {
+    if (charCount < 12) {
+      $('#char-count').css('color', 'red');
+    }
+    if (charCount < 1) {
+      $('#tweet-submit').attr('disabled', 'disabled');
+    }
     $('#char-count').text(function() {
         charCount--;
         initCount--;
@@ -28,6 +36,9 @@ $(document).ready(function() {
   });
   $('.tweet-compose').keyup(function(e) {
     if (e.keyCode === 8 && charCount < 141) {
+      if (charCount > 12) {
+        $('#char-count').css('color', '#999');
+      }
       $('#char-count').text(function() {
         charCount++;
         initCount++;
@@ -36,10 +47,9 @@ $(document).ready(function() {
     }
   });
 
-  // This disables the button by simply adding css "disabled"
-  if (charCount < 0) {
-    $('#tweet-submit').css('disabled');
-  }
+  // if (charCount < 0) {
+  //   $('#tweet-submit').css('disabled');
+  // }
 
   // Creates new div with all the info for new tweet, then inserts that into top of div. Includes the correct date and time!
 
@@ -56,7 +66,7 @@ $(document).ready(function() {
     // time = time.toDateString();
 
     // This uses the moment library to do tell us how long ago something happened.
-    // Currently they are working, they are just ugly. I don't really care at the moment though. 
+    // Currently they are working, they are just ugly. I don't really care at the moment though.
     time = moment().startOf(time).fromNow();
 
     // Check the DOM to see how the timeago feature is working (or whether it is at all).
