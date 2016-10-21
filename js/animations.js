@@ -43,7 +43,17 @@ $(document).ready(function() {
   $('#tweet-submit').click(function() {
     var newTweet = $('.tweet-compose').val();
 
-    time = new Date();
+    // Sets variable time equal to a new date object, which we have to manipulate later into a better/more readable format.
+    var time = new Date();
+
+    // This uses the timeago library to tell us how long ago something happened.
+    // var time = jQuery.timeago(new Date());
+
+    // This will turn the date object to a more readable format using native Date methods.
+    // time = time.toDateString();
+
+    // This uses the moment library to do tell us how long ago something happened.
+    time = moment().startOf(time).fromNow();
 
     // Check the DOM to see how the timeago feature is working (or whether it is at all).
 
@@ -59,11 +69,11 @@ $(document).ready(function() {
           '</div>' +
           '<div class="stats">' +
             '<div class="retweets">' +
-              '<p class="num-retweets">30</p>' +
+              '<p class="num-retweets">0</p>' +
               '<p>RETWEETS</p>' +
             '</div>' +
             '<div class="favorites">' +
-              '<p class="num-favorites">6</p>' +
+              '<p class="num-favorites">0</p>' +
               '<p>FAVORITES</p>' +
             '</div>' +
             '<div class="users-interact">' +
@@ -73,7 +83,7 @@ $(document).ready(function() {
               '</div>' +
             '</div>' +
             '<div class="time">' +
-            '<time class="timeago" datetime=' + time.toString() + '>' + time.toString() + '</time>' +
+             time.toString() +
             '</div>' +
           '</div>';
 
@@ -83,15 +93,15 @@ $(document).ready(function() {
 
   // This will reveal all the possible actions for a tweet when you hover over a tweet
 
-  $(document).on('mouseenter', '.tweet',
-    function() {
-      $(this).find('.tweet-actions').show();
-    });
-
-  $(document).on('mouseleave', '.tweet',
-    function() {
-      $(this).find('.tweet-actions').hide();
-  });
+  // $(document).on('mouseenter', '.tweet',
+  //   function() {
+  //     $(this).find('.tweet-actions').show();
+  //   });
+  //
+  // $(document).on('mouseleave', '.tweet',
+  //   function() {
+  //     $(this).find('.tweet-actions').hide();
+  // });
 
   // Here we make it so that the numbers of retweets etc. is shown when we click on a tweet. To hide it again we currently have to double click.
   $(document).on('click', '.tweet', function() {
@@ -99,6 +109,28 @@ $(document).ready(function() {
   });
   $(document).on('dblclick', '.tweet', function() {
     $(this).find('.stats').slideUp('slow');
+  });
+
+  // Here we implement the favorite/retweet buttons so that they actually increase their respective counters.
+  // As it is, these only work if you click the icon, not the text. Changing that would be simple HTML stuff, but it might be a little time consuming.
+  var retweetNum = 0;
+  var afterRetweetNum = 1;
+  $(document).on('click', '.action-retweet', function() {
+    $('.num-retweets').text(function() {
+      return $(this).text().replace(retweetNum, afterRetweetNum);
+    });
+    retweetNum++;
+    afterRetweetNum++;
+  });
+
+  var favoritesNum = 0;
+  var afterFavoritesNum = 1;
+  $(document).on('click', '.action-favorite', function(){
+    $('.num-favorites').text(function() {
+      return $(this).text().replace(favoritesNum, afterFavoritesNum);
+    });
+    favoritesNum++;
+    afterFavoritesNum++;
   });
 
 });
